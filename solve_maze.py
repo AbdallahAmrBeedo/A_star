@@ -128,20 +128,22 @@ def draw_color_path(map: np.ndarray, path: list) -> np.ndarray:
     Args:
         map: The map of the maze.
     '''
-    cv2.circle(map, (start[1], start[0]), 2, (255, 0, 0), -1)
-    cv2.circle(map, (end[1], end[0]), 2, (0, 0, 255), -1)
+    cv2.circle(map, (path[0][1], path[0][0]), 2, (255, 0, 0), -1)
+    cv2.circle(map, (path[-1][1], path[-1][0]), 2, (0, 0, 255), -1)
     for point in path:
         map[point[0], point[1]] = [0, 255, 0]
+        cv2.imshow('Colored', map)
+        cv2.waitKey(1)
     
     return map
 
-if __name__ == "__main__":
-    
+def main():
+
     start = (5, 195)
     end = (405, 215)
-    
+
     # Load the map of the maze
-    image, map = load_map('maze.png')
+    image, map = load_map('maze_3.png')
 
     # Find the shortest path using A* algorithm
     path = A_star(map, start, end)
@@ -152,17 +154,9 @@ if __name__ == "__main__":
     # Draw the path on the map
     image = draw_color_path(image, path)
 
-    # test_point = (286, 164)
-    # print(nearest_obs_2(map, test_point))
-
-    # cv2.circle(image, (test_point[1], test_point[0]), 2, (0, 0, 255), -1)
-
-    # cv2.imshow('Map', map)
-    cv2.imshow('Colored', image)
     cv2.imwrite('maze_solved.png', image)
-    cv2.waitKey(1)
-    
-    # plt.imshow(map, cmap='gray')
-    # plt.axis('off')
-    # plt.show()
-    
+    cv2.imshow('Colored', image)
+    cv2.waitKey(0)
+
+if __name__ == "__main__":
+    main()
