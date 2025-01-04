@@ -81,7 +81,7 @@ def nearest_obs(map: np.ndarray, point: tuple) -> int:
 
 ## Usage
 
-Just run the `solve_maze.py` file and the algorithm will find the path from the start to the goal. The paht will be displayed in the image.
+Just clone the repo and run the `solve_maze.py` file and the algorithm will find the path from the start to the goal. The paht will be displayed in the image.
 
 ```bash
 python solve_maze.py
