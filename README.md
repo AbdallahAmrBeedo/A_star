@@ -79,4 +79,24 @@ def nearest_obs(map: np.ndarray, point: tuple) -> int:
 ```
 --------------
 
+## Usage
+
+Just run the `solve_maze.py` file and the algorithm will find the path from the start to the goal. The paht will be displayed in the image.
+
+```bash
+python solve_maze.py
+```
+
+Arguments:
+- `-f`, `--file`: The path to the map image. Default: `<Maze_img/maze.png`
+- `v`, `--video`: whether to show the animated video of the path or not. Default: `False`
+- `r`, `--safe_radius`: The safe radius around the obstacles. Default: `7` pixels. 0 means no check and if more than 0, the value should be less than 8.
+- `-s`, `--start`: The start point. Default: `(5, 195)`
+- `-g``--goal`: The goal point. Default: `(405,215`
+
+```bash
+python solve_maze.py -f Maze_img/maze.png -v -r 7 -s 5 195 -e 405 215
+```
+
+
 
