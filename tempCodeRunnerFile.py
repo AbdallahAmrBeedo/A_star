@@ -1,3 +1,4 @@
-draw_path(map, path)
-        cv2.imshow('Map', map)
-        cv2.waitKey(1)
+    # # cv2.imshow('Map', map)
+    # cv2.imshow('Colored', image)
+    # cv2.waitKey(0)
+    

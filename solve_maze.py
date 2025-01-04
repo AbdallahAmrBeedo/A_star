@@ -20,7 +20,7 @@ def neighbors(map: np.ndarray, point: tuple) -> list:
             if i == 0 and j == 0:
                 continue
             x, y = point[0] + i, point[1] + j
-            if x >= 5 and x < map.shape[0]-2 and y >= 0 and y < map.shape[1] and map[x, y] == 255:
+            if x >= 5 and x < map.shape[0]-2 and y >= 0 and y < map.shape[1] and map[x, y] == 255 and (not nearest_obs(map, (x, y))):
                 neighbors.append((x, y))
     return neighbors
 
@@ -42,8 +42,8 @@ def nearest_obs(map: np.ndarray, point: tuple) -> int:
             for j in range(-dist, dist+1):
                 x, y = point[0] + i, point[1] + j
                 if x >= 5 and x < map.shape[0]-2 and y >= 0 and y < map.shape[1] and map[x, y] != 255:
-                    return dist
-                if dist > 10:
+                    return 1
+                if dist > 5:
                     return 0
 
 def A_star(map: np.ndarray, start: tuple, end: tuple) -> list:
@@ -129,8 +129,10 @@ if __name__ == "__main__":
 
     # cv2.imshow('Map', map)
     cv2.imshow('Colored', image)
+    cv2.imwrite('maze_solved.png', image)
     cv2.waitKey(0)
     
-    # plt.imshow(map, cmap='gray')
+    # plt.imshow(image)
+    # plt.axis('off')
     # plt.show()
     
