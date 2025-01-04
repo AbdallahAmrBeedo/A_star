@@ -158,18 +158,18 @@ def main():
     parser.add_argument('-r', '--safe_radius', type=int, default=7, 
                         help='Radius of the circle around the point to check for obstacles.\n0 means no check and if more than 0, the value should be less than 8.')
     
-    parser.add_argument('-s', '--start', type=tuple, default=(5, 195),
-                        help='The start point.')
+    parser.add_argument('-s', '--start', type=int, nargs=2, default=(5, 195),
+                        help='The start point')
     
-    parser.add_argument('-e', '--end', type=tuple, default=(405, 215),
+    parser.add_argument('-g', '--goal', type=int, nargs=2, default=(405, 215),
                         help='The end point')
-
+    
     args = parser.parse_args()
     file_path = args.file # Path to the file containing the map of the maze
     video_visualize = args.video # Whether to visualize the path on the maze in an animated video
     safe_radius = args.safe_radius # Radius of the circle around the point to check for obstacles
-    start = args.start # The start point
-    end = args.end # The end point
+    start = tuple(args.start) # The start point
+    end = tuple(args.goal) # The end point
     
     print('A* Algorithm for Path Planning')
     print('--------------------------------')
