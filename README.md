@@ -2,7 +2,7 @@
 --------------
 ## Algorithm
 
-<img title="a title" alt="Alt text" src="path_video.gif" width=300 align='right' caption='Final path'>
+<img title="Final path" alt="Final path" src="path_video.gif" width=300 align='right' caption='Final path'>
 
 A* is an algorithm to find the shortest path in a maze. The maze is represented as image with black walls and white spaces for the robot to walk in it.
 
