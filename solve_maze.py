@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import heapq
+import argparse
 
 def load_map(file_path: str) -> np.ndarray:
     '''
@@ -122,32 +123,65 @@ def draw_path(map: np.ndarray, path: list) -> np.ndarray:
     
     return map
 
-def draw_color_path(map: np.ndarray, path: list) -> np.ndarray:
+def draw_color_path(map: np.ndarray, path: list, video_vis: bool):
     '''
     Draws the path on the map.
     
     Args:
         map: The map of the maze.
+        path: The path to draw on the map.
+        video_vis: Whether to visualize the path on the maze in an animated video.
+
     '''
     cv2.circle(map, (path[0][1], path[0][0]), 2, (255, 0, 0), -1)
     cv2.circle(map, (path[-1][1], path[-1][0]), 2, (0, 0, 255), -1)
     for point in path:
         map[point[0], point[1]] = [0, 255, 0]
-        cv2.imshow('Final Path', map)
-        cv2.waitKey(1)
+        if video_vis:
+            cv2.imshow('Final Path', map)
+            cv2.waitKey(1)    
     
-    return map
+    cv2.imwrite('maze_solved.png', map)
+    cv2.imshow('Final Path', map)
+    cv2.waitKey(0)
 
 def main():
+    
+    parser = argparse.ArgumentParser(description='A* Algorithm for Path Planning')
 
-    start = (5, 195)
-    end = (405, 215)
+    parser.add_argument('-f' ,'--file', type=str, default='Maze_img/maze.png', 
+                        help='Path to the file containing the map of the maze.')
+    
+    parser.add_argument('-v', '--video', action='store_true', 
+                        help='Whether to visualize the path on the maze in an animated video.')
+    
+    parser.add_argument('-r', '--safe_radius', type=int, default=7, 
+                        help='Radius of the circle around the point to check for obstacles.\n0 means no check and if more than 0, the value should be less than 8.')
+    
+    parser.add_argument('-s', '--start', type=tuple, default=(5, 195),
+                        help='The start point.')
+    
+    parser.add_argument('-e', '--end', type=tuple, default=(405, 215),
+                        help='The end point')
 
-    # Radius of the circle around the point to check for obstacles
-    # 0 means no check and if more than 0, the value should be less than 8
-    safe_radius = 7
+    args = parser.parse_args()
+    file_path = args.file # Path to the file containing the map of the maze
+    video_visualize = args.video # Whether to visualize the path on the maze in an animated video
+    safe_radius = args.safe_radius # Radius of the circle around the point to check for obstacles
+    start = args.start # The start point
+    end = args.end # The end point
+    
+    print('A* Algorithm for Path Planning')
+    print('--------------------------------')
+    print('Start Point:', start)
+    print('End Point:', end)
+    print('Safe Radius:', safe_radius)
+    print('Visualize Path:', video_visualize)
+    print('--------------------------------')
+
+    print('Loading the map of the maze from: ' + file_path)
     # Load the map of the maze
-    image, map = load_map('Maze_img/maze.png')
+    image, map = load_map(file_path)
 
     # Find the shortest path using A* algorithm
     path = A_star(map, start, end, safe_radius)
@@ -155,12 +189,9 @@ def main():
     if path is None:
         raise ValueError('No path exists from the start to the end point.')
     
+    print('Done! Path found from the start to the end point.')
     # Draw the path on the map
-    image = draw_color_path(image, path)
-
-    cv2.imwrite('maze_solved.png', image)
-    cv2.imshow('Final Path', image)
-    cv2.waitKey(0)
+    image = draw_color_path(image, path, video_visualize)
 
 if __name__ == "__main__":
     main()
